@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import 'package:streamlink_player/models.dart';
+import 'package:streamlink_player/services/database.dart';
 
 class AddStationScreen extends StatefulWidget {
   @override
@@ -45,15 +46,18 @@ class _AddStationScreenState extends State<AddStationScreen> {
           SizedBox(height: 10),
           FlatButton(
               onPressed: () {
-                if (titleFieldController.text != null &&
-                    titleFieldController.text != '' &&
-                    urlFieldController.text != null &&
-                    urlFieldController.text != '') {
+                final newTitle = titleFieldController.text;
+                final newUrl = urlFieldController.text;
+                if (newTitle != null &&
+                    newTitle != '' &&
+                    newUrl != null &&
+                    newUrl != '') {
                   final res = Provider.of<StationsData>(context, listen: false)
                       .addStream(
-                    title: titleFieldController.text,
-                    url: urlFieldController.text,
+                    title: newTitle,
+                    url: newUrl,
                   );
+                  DataProvider().add({'title': newTitle, 'url': newUrl});
                   if (res) {
                     Navigator.pop(context);
                   } else {

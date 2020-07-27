@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:collection';
+import 'package:streamlink_player/services/database.dart';
 
 class StreamStation {
   StreamStation(this.title, this.url);
@@ -9,11 +10,7 @@ class StreamStation {
 }
 
 class StationsData extends ChangeNotifier {
-  List<StreamStation> _streams = [
-    StreamStation('Radio Paradise', 'https://stream.radioparadise.com/aac-320'),
-    StreamStation(
-        'Radio Paradise Rock', 'https://stream.radioparadise.com/rock-320')
-  ];
+  List<StreamStation> _streams = [];
 
   UnmodifiableListView<StreamStation> get streams {
     return UnmodifiableListView(_streams);
@@ -33,6 +30,7 @@ class StationsData extends ChangeNotifier {
       if (_streams[i].url == url) {
         _streams.removeAt(i);
         notifyListeners();
+        DataProvider().remove(i);
         return true;
       }
     }

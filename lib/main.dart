@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:streamlink_player/screens/main_screen.dart';
 import 'package:streamlink_player/models.dart';
+import 'package:streamlink_player/services/database.dart';
 
-void main() {
+void main() async {
+  await DataProvider().init();
   runApp(MyApp());
 }
 
